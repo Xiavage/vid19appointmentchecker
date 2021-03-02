@@ -16,44 +16,20 @@ count = 0
 def send_email(name, url):
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
-    sender_email = "covid19vaccineappointment212@gmail.com"  # Enter your address
-    receiver_email = 'bknguyen@utexas.edu'  # Enter receiver address
-    password = 'COVID19suxs!'
-    message = """\
+    sender_email = ""  # Enter your address
+    receiver_email = ''  # Enter receiver address
+    password = '' #Enter email password here
+    message = """\  
     Subject: COVID 19 Appointment
 
-    An appointment is available at """ + name
+    An appointment is available at """ + name #message for the email recipient
     message = message + '\nSign up using this link: ' + url
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, message)
-        # server.sendmail(sender_email, 'albert.xia18@gmail.com', message)
     appointmentFound = True
     print('appointment found!')
-    # port = 465  # For SSL
-    # smtp_server = "smtp.gmail.com"
-    # password = input("Type your password and press enter: ")
-    # sender_email = "covid19vaccineappointments212@gmail.com"
-    # receiver_email = 'albert.xia18@gmail.com'
-    # context = ssl.create_default_context()
-    # message = """\
-    # Subject: Available vaccine appointment
-
-
-    # There is an available vaccine appointment at """ 
-    # oldMessage = message    
-    # message = message + name + '.\nPlease schedule your appointment at ' + url
-
-    # context = ssl.create_default_context()
-    # with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-    #     server.login(sender_email, password)
-    #     server.sendmail(sender_email, receiver_email, message)
-    #     print("email sent!")
-    # message = oldMessage
-
-#check for appointment availability based on the cities specified.
-city = ['Cleveland', 'Cypress', 'Houston', 'Huntsville', 'San Jacinto City', 'Katy', 'Kingsville', 'La Marque', 'Livingston', 'Pasadena', 'Pearland', 'Richmond', 'Woodlands', 'Seabrook']
 
 #email if there is an available appointment 
 if __name__ == '__main__':
@@ -74,7 +50,7 @@ if __name__ == '__main__':
         texas = driver.find_element_by_xpath('/html/body/content/div/div/div/div[3]/div/div/div[2]/div/div[5]/div/div/div/div/div/div[1]/div[2]/div/div[2]/div/div/div/div/div[2]/ul/li[11]/div/a/span')
         texas.click()
         time.sleep(1)
-
+    #look for cities based on your location (this is the cities nearby houston and austin texas)
         austin_name = driver.find_element_by_xpath('/html/body/div[2]/div/div[20]/div/div/div/div/div/div[1]/div[2]/div/div/div[2]/div/div[6]/div/div/table/tbody/tr[7]/td[1]/span').text
         austin_status = driver.find_element_by_xpath('/html/body/div[2]/div/div[20]/div/div/div/div/div/div[1]/div[2]/div/div/div[2]/div/div[6]/div/div/table/tbody/tr[7]/td[2]/span').text
         if(austin_status == 'Available'):
@@ -170,16 +146,6 @@ if __name__ == '__main__':
         if(tomball_status == 'Available'):
             send_email(tomball_name, url)
 
-        # #borger,tx test email status
-        # borger_name = driver.find_element_by_xpath('/html/body/div[2]/div/div[20]/div/div/div/div/div/div[1]/div[2]/div/div/div[2]/div/div[6]/div/div/table/tbody/tr[10]/td[1]/span').text
-        # borger_status = driver.find_element_by_xpath('/html/body/div[2]/div/div[20]/div/div/div/div/div/div[1]/div[2]/div/div/div[2]/div/div[6]/div/div/table/tbody/tr[10]/td[2]/span').text
-        # if(borger_status == 'Available'):
-        #     send_email(borger_name, url)
-        #81
-        # beaumont_status = driver.find_element_by_xpath('/html/body/div[2]/div/div[20]/div/div/div/div/div/div[1]/div[2]/div/div/div[2]/div/div[6]/div/div/table/tbody/tr[9]/td[2]/span').text
-        #look for a specific city and check its status
-        # time.sleep(5)
-        # driver.close()
         if not appointmentFound:
             print('No appointments found')
         time.sleep(300) #timeout every 5 minutes for maximum effect
